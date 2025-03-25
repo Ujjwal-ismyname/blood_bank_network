@@ -1,0 +1,88 @@
+classDiagram
+    class User {
+        <<abstract>>
+        +int id
+        +string name
+        +string email
+        +string password
+        +string contactNumber
+        +Date createdAt
+        +authenticate()
+        +updateProfile()
+    }
+
+    class Donor {
+        +string bloodType
+        +Date lastDonationDate
+        +string address
+        +registerDonation()
+        +checkEligibility()
+    }
+
+    class BloodBank {
+        +string name
+        +string location
+        +string contactNumber
+        +string email
+        +manageInventory()
+        +generateReport()
+    }
+
+    class BloodInventory {
+        +string bloodType
+        +int unitsAvailable
+        +Date lastUpdated
+        +updateStock()
+        +checkAvailability()
+    }
+
+    class DonationCamp {
+        +string name
+        +string location
+        +Date date
+        +Time startTime
+        +Time endTime
+        +string organizer
+        +registerCamp()
+        +manageCampRegistrations()
+    }
+
+    class Authentication {
+        +string token
+        +generateToken()
+        +validateToken()
+        +resetPassword()
+    }
+
+    class Notification {
+        +string type
+        +string recipient
+        +string message
+        +Date sentAt
+        +sendEmail()
+        +sendSMS()
+    }
+
+    class Report {
+        +Date startDate
+        +Date endDate
+        +generateDonorReport()
+        +generateBloodInventoryReport()
+        +exportReport()
+    }
+
+    class BloodCompatibility {
+        +string sourceBloodType
+        +string compatibleBloodTypes[]
+        +checkCompatibility()
+        +getCompatibleTypes()
+    }
+
+    User <|-- Donor : Inheritance
+    BloodBank "1" *-- "many" BloodInventory : Composition
+    Donor "many" -- "many" DonationCamp : Association
+    Donor "many" -- "1" BloodBank : Donation
+    Authentication "1" -- "1" User : Association
+    Notification "1" -- "1" User : Association
+    Report "1" -- "many" Donor : Aggregation
+    Report "1" -- "many" BloodInventory : Aggregation
